@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokemon_flutter/blocs/pokemon_basic/pokemon_state.dart';
 import 'package:provider/provider.dart';
 import '../../blocs/theme_controller.dart';
 import '../widgets/bottom_loading_bar_widget.dart';
@@ -53,16 +54,40 @@ class _HomeScreenState extends State<HomeScreen> {
               physics: const BouncingScrollPhysics(),
               slivers: [
                 const CustomSliverAppBar(),
-                // add space between the appBar and the gridview
+
                 const SliverToBoxAdapter(
-                    child: SizedBox(height: constants.mediumPadding)),
+                  child: SizedBox(height: constants.mediumPadding),
+                ),
+
+                // 👇 CONTADOR DE POKEMONES
+                SliverToBoxAdapter(
+                  child: BlocBuilder<PokemonBasicBloc, PokemonBasicState>(
+                    builder: (context, state) {
+                      if (state is PokemonBasicLoaded) {
+                        final total = state.pokemons.length;
+
+                        return Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8),
+                          child: Text(
+                            "Pokémons: $total",
+                            style: Theme.of(context).textTheme.titleMedium,
+                          ),
+                        );
+                      }
+
+                      return const SizedBox();
+                    },
+                  ),
+                ),
+
                 const CustomSliverGridView(),
-                // bottom circular progress indicator show when at the bottom of the grid and fetch new data
+
                 if (atBottom && loadData) const BottomLoadingBarWidget(),
-                // if at the end of the grid and no more data just add some space to the bottom of the grid
+
                 if (atBottom && !loadData)
                   const SliverToBoxAdapter(
-                      child: SizedBox(height: constants.mediumPadding))
+                    child: SizedBox(height: constants.mediumPadding),
+                  ),
               ],
             )));
   }
