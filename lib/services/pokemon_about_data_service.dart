@@ -1,8 +1,6 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:pokemon_flutter/models/pokemon_about_data.dart';
 
 import '../models/pokemon_basic_data.dart';
 
@@ -25,7 +23,7 @@ class PokemonAboutDataService {
         var habitatData = pokemonInfo['habitat'];
         String habitat = 'Unknown'; // not every pokemon has this data
         if (habitatData != null) {
-           habitat = habitatData['name'];
+          habitat = habitatData['name'];
         }
         String growthRate = pokemonInfo['growth_rate']['name'];
         // get only the first text

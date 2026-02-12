@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_flutter/controllers/search_controller.dart';
+import 'package:pokemon_flutter/blocs/search_controller.dart';
 import 'package:pokemon_flutter/ui/widgets/search_widgets/search_terminal_widget.dart';
 import 'package:provider/provider.dart';
 
-import '../../controllers/theme_controller.dart';
+import '../../blocs/theme_controller.dart';
 import 'package:pokemon_flutter/utils/constants.dart' as constants;
 
 class SearchedAbilityScreen extends StatefulWidget {

@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_flutter/controllers/pokemon_basic_controller.dart';
 import 'package:provider/provider.dart';
-import '../../controllers/theme_controller.dart';
+import '../../blocs/theme_controller.dart';
 import '../widgets/bottom_loading_bar_widget.dart';
 import '../widgets/home_screen_sliver_app_bar.dart';
 import '../widgets/custom_sliver_grid_view.dart';
 import 'package:pokemon_flutter/utils/constants.dart' as constants;
-
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../blocs/pokemon_basic/pokemon_bloc.dart';
+import '../../blocs/pokemon_basic/pokemon_event.dart';
 
 class HomeScreen extends StatefulWidget {
   static const String routeName = "HomeScreen";
@@ -25,7 +26,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   void initState() {
-    fetchPokemons();
+    context.read<PokemonBasicBloc>().add(LoadPokemons(offset));
     pokemonLazyLoading();
     super.initState();
   }
@@ -66,12 +67,6 @@ class _HomeScreenState extends State<HomeScreen> {
             )));
   }
 
-  Future<void> fetchPokemons() async {
-    // Call the future one in init state
-    await Provider.of<PokemonBasicDataController>(context, listen: false)
-        .getAllPokemons(offset);
-  }
-
   Future<void> pokemonLazyLoading() async {
     // fire at the bottom of the screen
     setState(() {
@@ -85,7 +80,6 @@ class _HomeScreenState extends State<HomeScreen> {
         // if reached the bottom of the grid change offset and fetch new data
         if (!isTop) {
           offset += 20;
-          fetchPokemons();
         }
       } else if (offset >= 980) {
         setState(() {

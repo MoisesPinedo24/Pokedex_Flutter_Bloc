@@ -3,8 +3,8 @@ import 'package:pokemon_flutter/ui/widgets/search_widgets/search_result_widget.d
 import 'package:pokemon_flutter/utils/constants.dart' as constants;
 import 'package:provider/provider.dart';
 
-import '../../../controllers/search_controller.dart';
-import '../../../controllers/theme_controller.dart';
+import '../../../blocs/search_controller.dart';
+import '../../../blocs/theme_controller.dart';
 
 class SearchWidget extends StatefulWidget {
   const SearchWidget({Key? key}) : super(key: key);

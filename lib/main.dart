@@ -1,46 +1,61 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_flutter/controllers/pokemon_about_controller.dart';
-import 'package:pokemon_flutter/controllers/pokemon_basic_controller.dart';
-import 'package:pokemon_flutter/controllers/pokemon_favorite_controller.dart';
-import 'package:pokemon_flutter/controllers/pokemon_more_info_controller.dart';
-import 'package:pokemon_flutter/controllers/pokemon_stat_controller.dart';
-import 'package:pokemon_flutter/controllers/search_controller.dart';
+import 'package:pokemon_flutter/blocs/pokemon_about_controller.dart';
+import 'package:pokemon_flutter/blocs/pokemon_basic/pokemon_event.dart';
+import 'package:pokemon_flutter/blocs/pokemon_favorite_controller.dart';
+import 'package:pokemon_flutter/blocs/pokemon_more_info_controller.dart';
+import 'package:pokemon_flutter/blocs/pokemon_stat_controller.dart';
+import 'package:pokemon_flutter/blocs/search_controller.dart';
 import 'package:pokemon_flutter/ui/screens/favorite_screen.dart';
 import 'package:pokemon_flutter/ui/screens/home_screen.dart';
 import 'package:pokemon_flutter/ui/screens/pokemon_detail_screen.dart';
 import 'package:pokemon_flutter/ui/screens/search_screen.dart';
 import 'package:pokemon_flutter/ui/screens/settings_screen.dart';
-import 'package:pokemon_flutter/controllers/theme_controller.dart';
+import 'package:pokemon_flutter/blocs/theme_controller.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_flutter/blocs/pokemon_basic/pokemon_bloc.dart';
+import 'package:pokemon_flutter/services/pokemon_basic_service.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SharedPreferences.getInstance().then((prefs) {
-    var isDarkTheme = prefs.getBool("isDark") ?? true;
-    runApp(ChangeNotifierProvider<ThemeController>(
-      child: const MyApp(),
-      create: (_) => ThemeController(isDarkTheme),
-    ));
-  });
-}
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final prefs = await SharedPreferences.getInstance();
+  final isDarkTheme = prefs.getBool("isDark") ?? true;
 
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MultiProvider(
+  runApp(
+    MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => PokemonBasicDataController()),
+        /// -------- THEME ----------
+        ChangeNotifierProvider(
+          create: (_) => ThemeController(isDarkTheme),
+        ),
+
+        /// -------- BLOCS ----------
+        BlocProvider(
+          create: (_) =>
+              PokemonBasicBloc(PokemonBasicDataService())..add(LoadPokemons(0)),
+        ),
+
+        /// -------- CONTROLLERS ----------
         ChangeNotifierProvider(create: (_) => PokemonAboutDataController()),
         ChangeNotifierProvider(create: (_) => PokemonMoreInfoController()),
         ChangeNotifierProvider(create: (_) => PokemonStatsController()),
         ChangeNotifierProvider(create: (_) => PokemonFavoritesController()),
         ChangeNotifierProvider(create: (_) => SearchPokemonsController()),
       ],
-      child: Consumer<ThemeController>(builder: (context, provider, ch) {
+      child: const MyApp(),
+    ),
+  );
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<ThemeController>(
+      builder: (context, provider, ch) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
           theme: provider.themeData,
@@ -55,7 +70,7 @@ class MyApp extends StatelessWidget {
             SearchScreen.routeName: (context) => const SearchScreen(),
           },
         );
-      }),
+      },
     );
   }
 }

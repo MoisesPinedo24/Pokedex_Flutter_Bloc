@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:pokemon_flutter/controllers/search_controller.dart';
+import 'package:pokemon_flutter/blocs/search_controller.dart';
 import 'package:pokemon_flutter/ui/screens/search_abilitie_screen.dart';
 import 'package:pokemon_flutter/ui/widgets/search_widgets/search_terminal_widget.dart';
 import 'package:pokemon_flutter/utils/constants.dart' as constants;
 import 'package:provider/provider.dart';
-import '../../../controllers/theme_controller.dart';
+import '../../../blocs/theme_controller.dart';
 
 class SearchResultItemWidget extends StatefulWidget {
   final String resultText;

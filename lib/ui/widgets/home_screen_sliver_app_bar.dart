@@ -4,7 +4,7 @@ import 'package:pokemon_flutter/ui/screens/search_screen.dart';
 import 'package:pokemon_flutter/utils/constants.dart' as constants;
 import 'package:provider/provider.dart';
 
-import '../../controllers/theme_controller.dart';
+import '../../blocs/theme_controller.dart';
 import '../screens/settings_screen.dart';
 
 class CustomSliverAppBar extends StatelessWidget {

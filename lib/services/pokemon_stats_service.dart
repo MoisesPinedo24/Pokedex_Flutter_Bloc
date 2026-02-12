@@ -1,12 +1,11 @@
 import 'dart:convert';
 
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:pokemon_flutter/models/pokemon_basic_data.dart';
-import 'package:pokemon_flutter/models/pokemon_stats_data.dart';
 
 class PokemonStatsService {
-  Future<Map<String, dynamic>> fetchPokemonStats(PokemonBasicData pokemon) async {
+  Future<Map<String, dynamic>> fetchPokemonStats(
+      PokemonBasicData pokemon) async {
     Map<String, dynamic> pokemonStats = {};
     // convert the pokemon name to lower case so we can use it in the url
     String pokemonNameLowerCase = pokemon.name.toLowerCase();
@@ -32,7 +31,6 @@ class PokemonStatsService {
         specialDefence = statsData[4]['base_stat'];
         speed = statsData[5]['base_stat'];
 
-
         pokemonStats = {
           'hp': hp,
           'attack': attack,
@@ -44,7 +42,6 @@ class PokemonStatsService {
       }
 
       return pokemonStats;
-
     } catch (error) {
       rethrow;
     }

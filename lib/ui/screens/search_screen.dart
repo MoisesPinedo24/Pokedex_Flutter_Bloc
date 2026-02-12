@@ -3,7 +3,7 @@ import 'package:pokemon_flutter/ui/widgets/search_widgets/search_widget.dart';
 import 'package:pokemon_flutter/utils/constants.dart' as constants;
 import 'package:provider/provider.dart';
 
-import '../../controllers/theme_controller.dart';
+import '../../blocs/theme_controller.dart';
 
 class SearchScreen extends StatelessWidget {
   static const String routeName = 'SearchScreen';
