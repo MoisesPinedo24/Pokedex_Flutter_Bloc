@@ -69,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         return Padding(
                           padding: const EdgeInsets.symmetric(vertical: 8),
                           child: Text(
-                            "Pokémons: $total",
+                            "Pokemons: $total",
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                         );
